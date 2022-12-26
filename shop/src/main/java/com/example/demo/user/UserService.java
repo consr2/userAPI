@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -41,6 +42,10 @@ public class UserService {
 		
 		userRepository.save(user);
 		return user.getId();
+	}
+	
+	public List<SiteUser> findAll(){
+		return userRepository.findAll();
 	}
 	
 	
