@@ -12,8 +12,8 @@ public class OrderDto {
 	
 	public OrderDto(BookOrder order) {
 		this.orderid = order.getId();
-		this.userName = order.getUser().getName();
-		this.bookName = order.getBook().getName();
+		this.userName = order.getUser().getName(); //쿼리 문이 또 필요함
+		this.bookName = order.getBook().getName(); //쿼리 문이 또 필요함
 		this.price = order.getPrice();
 		this.quantity = order.getQuantity();
 	}

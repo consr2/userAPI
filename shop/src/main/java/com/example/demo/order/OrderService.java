@@ -39,4 +39,8 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 	
+	//쿼리 생성
+	public List<BookOrder> findAllWithBookAndUser(){
+		return orderRepository.query1();
+	}
 }

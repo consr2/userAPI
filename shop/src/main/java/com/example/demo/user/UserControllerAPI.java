@@ -87,6 +87,10 @@ public class UserControllerAPI {
 	
 	
 	//쿼리가 너무 많이 던지게 됨
+	//현재 결제목록이 2개이고 lazy로 인해 2바퀴 돌게 된다.
+	//bList는 전체를 가져오는 쿼리 1개, 해당 유저의 이름을 가져오는 쿼리 1개
+	//book정보를 가져오는 쿼리 2개가 필요하다. 만약 book이 많아지면 그만큼
+	//쿼리 수가 많아지게 된다. (n+1문제)
 	//api를 위한 Dto생성후 던져주기
 	@GetMapping("api/v2/order")
 	public Result  getOrder2() {
@@ -98,5 +102,14 @@ public class UserControllerAPI {
 	}
 	
 	
+	//fetch join을 이용해 쿼리 1개로 불러옴
+	@GetMapping("/api/v3/order")
+	public Result getOrder3() {
+		List<BookOrder> bList = OrderService.findAllWithBookAndUser();
+		List<OrderDto> collect = bList.stream()
+				.map(m -> new OrderDto(m))
+				.collect(Collectors.toList());
+		return new Result<>(collect.size(),collect);
+	}
 	
 }
