@@ -85,16 +85,14 @@ public class UserControllerAPI {
 		return bList;
 	}
 	
+	
+	//쿼리가 너무 많이 던지게 됨
 	//api를 위한 Dto생성후 던져주기
 	@GetMapping("api/v2/order")
 	public Result  getOrder2() {
 		List<BookOrder> bList = OrderService.findAll();
 		List<OrderDto> collect = bList.stream()
-				.map(m -> new OrderDto(m.getId(),
-						m.getUser().getName(),
-						m.getBook().getName(),
-						m.getPrice(),
-						m.getQuantity()))
+				.map(m -> new OrderDto(m))
 				.collect(Collectors.toList());
 		return new Result<>(collect.size(),collect);
 	}

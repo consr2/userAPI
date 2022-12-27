@@ -10,12 +10,11 @@ public class OrderDto {
 	private int price;
 	private int quantity;
 	
-	public OrderDto(Integer orderid, String userName, String bookName, int price, int quantity) {
-		super();
-		this.orderid = orderid;
-		this.userName = userName;
-		this.bookName = bookName;
-		this.price = price;
-		this.quantity = quantity;
+	public OrderDto(BookOrder order) {
+		this.orderid = order.getId();
+		this.userName = order.getUser().getName();
+		this.bookName = order.getBook().getName();
+		this.price = order.getPrice();
+		this.quantity = order.getQuantity();
 	}
 }
