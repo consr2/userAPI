@@ -1,4 +1,4 @@
-package com.example.demo.user;
+package com.example.demo.book;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class SiteUser {
+public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,11 @@ public class SiteUser {
 	
 	private String name;
 	
-	private int age;
+	private int price;
+	
+	private int amount;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<BookOrder> orderList ;
-	
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	private List<BookOrder> orderList;
 }

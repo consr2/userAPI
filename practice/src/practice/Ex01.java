@@ -30,9 +30,12 @@ public class Ex01 {
 		sList.add(new Stu("5번입니다"));
 
 		
-		List<Stu> mm = sList.stream().filter(a -> a.name.
-				equals("2번입니다"))
+		List<Stu> mm = sList.stream()
+				//걸러내기
+				.filter(a -> a.name.equals("2번입니다"))
+				//객체 생성함(변환시키는 역할)
 				.map(stu -> new Stu(stu.name))
+				//컬렉션 형태로 변환
 				.collect(Collectors.toList());
 		
 		System.out.println(mm.toString());
