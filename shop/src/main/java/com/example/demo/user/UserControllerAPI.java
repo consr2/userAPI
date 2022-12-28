@@ -15,6 +15,8 @@ import com.example.demo.order.BookOrder;
 import com.example.demo.order.OrderDto;
 import com.example.demo.order.OrderService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -111,5 +113,13 @@ public class UserControllerAPI {
 				.collect(Collectors.toList());
 		return new Result<>(collect.size(),collect);
 	}
+	
+	
+	//바로 Dto로 받기
+	@GetMapping("/api/v4/order")
+	public List<OrderDto> getOrder4() {
+		return OrderService.makequery();
+	}
+	
 	
 }

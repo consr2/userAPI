@@ -9,6 +9,7 @@ import com.example.demo.book.BookService;
 import com.example.demo.user.SiteUser;
 import com.example.demo.user.UserService;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -18,6 +19,7 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 	private final UserService userService;
 	private final BookService bookService;
+	private final EntityManager em;
 	
 	//주문 등록
 	public void create(String username, String book, int price, int quantity) {
@@ -43,4 +45,16 @@ public class OrderService {
 	public List<BookOrder> findAllWithBookAndUser(){
 		return orderRepository.query1();
 	}
+	
+	//쿼리로 바로 Dto로 받기
+	public List<OrderDto> makequery(){
+		String sql = "select new com.example.demo.order.OrderDto2(o.id, u.name, b.name, o.price, o.quantity)" +
+					" from BookOrder o" +
+					" join o.user u" +
+					" join o.book b";
+		List<OrderDto> oList = em.createQuery(sql, OrderDto.class).getResultList();
+		
+		return oList;
+	}
+	
 }
