@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final EntityManager em;
 	
 	//유저 등록
 	@Transactional
@@ -58,6 +60,13 @@ public class UserService {
 		return userRepository.findByName(name).get();
 	}
 	
+	public List<SiteUser> findAllByQuery(){
+		String sql = "select u from SiteUser u" +
+					" join fetch u.orderList o" +
+					" join fetch o.book b";
+		List<SiteUser> userList = em.createQuery(sql, SiteUser.class).getResultList();
+		return userList;
+	}
 	
 	
 }

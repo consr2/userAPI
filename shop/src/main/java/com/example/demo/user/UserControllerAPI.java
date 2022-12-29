@@ -149,6 +149,9 @@ public class UserControllerAPI {
 	
 	
 	//v2에서는 dto를 만들어서 사용함 orderList또한 Dto로 만들어서 반환
+	//현재는 쿼리가 많아 나가기 때문에 역시 jpql 사용해야함
+	//현제쿼리 순서 유저목록-오더목록-책목록(유저4명이라 4번 오더목록이 실행 
+	// 1번 유져의 오더에 2개의 주문이 있기 떄문에 2번 더 나감)
 	@GetMapping("/api/v2/getuser")
 	public List<UserOrderDto> getUser4(){
 		List<SiteUser> user = userService.findAll();
@@ -159,7 +162,16 @@ public class UserControllerAPI {
 		return collect;
 	}
 	
-	
+	//v3 현재 배열로 감싸져 있어서 이것 또한 result에 넣어서 보내주는 것이 좋음
+	//fetch join
+	@GetMapping("/api/v3/getuser")
+	public Result<List<UserOrderDto>> getUser5() {
+		List<SiteUser> user = userService.findAllByQuery();
+		List<UserOrderDto> collect = user.stream()
+				.map(m -> new UserOrderDto(m))
+			.	collect(Collectors.toList());
+		return new Result<List<UserOrderDto>>(collect.size(), collect);
+	}
 	
 	
 	
