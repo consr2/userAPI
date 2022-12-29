@@ -14,4 +14,9 @@ public class ShopApplication {
 	}
 	
 
+//	@Bean
+//	Hibernate5Module hivernate5Module() {
+//		Hibernate5Module hibernate5Module = new Hibernate5Module();
+//		return hibernate5Module;
+//	}
 }

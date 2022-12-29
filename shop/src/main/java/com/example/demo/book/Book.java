@@ -29,7 +29,4 @@ public class Book {
 	
 	private int amount;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-	private List<BookOrder> orderList;
 }

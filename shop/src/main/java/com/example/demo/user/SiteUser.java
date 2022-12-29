@@ -28,7 +28,7 @@ public class SiteUser {
 	private int age;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<BookOrder> orderList ;
 	
 }

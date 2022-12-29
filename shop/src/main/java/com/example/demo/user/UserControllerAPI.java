@@ -1,7 +1,6 @@
 package com.example.demo.user;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.order.BookOrder;
 import com.example.demo.order.OrderDto;
+import com.example.demo.order.OrderDto2;
 import com.example.demo.order.OrderService;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -120,6 +118,50 @@ public class UserControllerAPI {
 	public List<OrderDto> getOrder4() {
 		return OrderService.makequery();
 	}
+	
+	
+	//컬렉션을 조회할 시(xxToMany)는 현재는 해당 갯수만큼 쿼리가 많이 나가게 된다.
+	//이 부분을 최적화 시켜 보자
+	@GetMapping("/api/v1/getuser")
+	public List<SiteUser> getUser3() {
+		List<SiteUser> user = userService.findAll();
+		return user;
+	}
+	
+	@Data
+	static class UserOrderDto{
+		private Integer id;
+		private String name;
+		private int age;
+		private List<OrderDto> orderList;
+		
+		public UserOrderDto(SiteUser user) {
+			this.id = user.getId();
+			this.name = user.getName();
+			this.age = user.getAge();
+			this.orderList = user.getOrderList().stream()
+					.map(m -> new OrderDto(m))
+					.collect(Collectors.toList());
+			
+		}
+	}
+	
+	
+	
+	//v2에서는 dto를 만들어서 사용함 orderList또한 Dto로 만들어서 반환
+	@GetMapping("/api/v2/getuser")
+	public List<UserOrderDto> getUser4(){
+		List<SiteUser> user = userService.findAll();
+		List<UserOrderDto> collect = user.stream()
+				.map(m -> new UserOrderDto(m))
+			.	collect(Collectors.toList());
+		
+		return collect;
+	}
+	
+	
+	
+	
 	
 	
 }

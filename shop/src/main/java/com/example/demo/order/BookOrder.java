@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,13 +21,13 @@ public class BookOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private SiteUser user;
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	private Book book;
-	
 	private int price;
 	
 	private int quantity;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private SiteUser user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Book book;
 }
