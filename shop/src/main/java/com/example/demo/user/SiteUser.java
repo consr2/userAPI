@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.order.BookOrder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,7 +29,7 @@ public class SiteUser {
 	private int age;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<BookOrder> orderList ;
 	
 }

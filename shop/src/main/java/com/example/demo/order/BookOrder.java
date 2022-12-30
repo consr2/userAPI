@@ -2,6 +2,7 @@ package com.example.demo.order;
 
 import com.example.demo.book.Book;
 import com.example.demo.user.SiteUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

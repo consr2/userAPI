@@ -139,9 +139,11 @@ public class UserControllerAPI {
 			this.id = user.getId();
 			this.name = user.getName();
 			this.age = user.getAge();
-			this.orderList = user.getOrderList().stream()
-					.map(m -> new OrderDto(m))
-					.collect(Collectors.toList());
+			if(user.getOrderList().size() > 0) {
+				this.orderList = user.getOrderList().stream()
+						.map(m -> new OrderDto(m))
+						.collect(Collectors.toList());
+			}
 			
 		}
 	}
@@ -170,6 +172,7 @@ public class UserControllerAPI {
 		List<UserOrderDto> collect = user.stream()
 				.map(m -> new UserOrderDto(m))
 			.	collect(Collectors.toList());
+		System.out.println(collect.toString());
 		return new Result<List<UserOrderDto>>(collect.size(), collect);
 	}
 	

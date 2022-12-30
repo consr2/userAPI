@@ -40,7 +40,7 @@ class ShopApplicationTests {
 	private final MockMvc mockMvc;
 
 	//유저 등록 테스트
-	@Test
+	//@Test
 	void createBook() throws Exception{
 		
 		UserDto user = new UserDto("호랑이", 15);
@@ -66,13 +66,13 @@ class ShopApplicationTests {
 	
 	
 	//주문 등록
-		//@Test
-		void createOrder() {
-			orderService.create("홍길동", "삼국지", 20000, 2);
-			orderService.create("홍길동", "초한지", 60000, 3);
-		}
-	
-	
+	//@Test
+	void createOrder() {
+		orderService.create("호랑이", "삼국지", 10000, 1);
+		orderService.create("호랑이", "초한지", 60000, 3);
+	}
+
+
 	
 	
 	
