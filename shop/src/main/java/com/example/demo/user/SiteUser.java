@@ -30,6 +30,6 @@ public class SiteUser {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<BookOrder> orderList ;
+	private List<BookOrder> orderList;
 	
 }

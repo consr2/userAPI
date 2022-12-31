@@ -5,6 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.order.OrderDto;
+import com.example.demo.order.OrderDto2;
+import com.example.demo.order.OrderService;
+import com.example.demo.user.dto.UserDto2;
+
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -61,34 +66,32 @@ public class UserService {
 	}
 	
 	//유저의 주문목록까지 가져오기
-	//이렇게 할 시 페이징 처리를 할 수 없다. db입장에서는 조회되는 양이
-	//뻥튀기 되기 때문에... 처리는 가능하지만 모든 결과를 메모리에 저장해버리는 방식이라
-	//용량이 커지면 메모리가 터진다.
-	//인라고 설명을 들었는데?? 지금 sysout으로 찍어보니 1개만 출력된다?
-	//뭐지????? 메모리에 전부 저장되면 2개 출력되야하는게 아닌가? 일단 보류
+	//오더리스트의 갯수만큼 유저가 중복된다.
 	public List<SiteUser> findAllByQuery(){
 		String sql = "select distinct u from SiteUser u" +
-					" join fetch u.orderList o" +
-					" join fetch o.book" + 
-					" order by u.id desc";
+					" left join fetch u.orderList o" +
+					" left join fetch o.book";
 		List<SiteUser> userList = em.createQuery(sql, SiteUser.class)
 				.setFirstResult(0)
-				.setMaxResults(1)
+				.setMaxResults(10)
 				.getResultList();
 		
 		return userList;
 	}
 	
-	//이렇게 하면 orderList의 boo정보를 위한 쿼리가 다시 날라간다.
-	//아래의 장 : 페이징 처리 가능
-	//		단: 쿼리가 좀 더 많이 나감
+	//유저가져오기 1번 주문 가져오기 1번으로
+	//두 정보를 메모리에서 합쳐서 사용하기
 	public List<SiteUser> findAllByQuery2(){
-		String sql = "select distinct u from SiteUser u";
+		String sql = "select u from SiteUser u";
 		List<SiteUser> userList = em.createQuery(sql, SiteUser.class)
-				.setFirstResult(0)
-				.setMaxResults(100)
 				.getResultList();
+		
 		return userList;
 	}
+	
+	
+	
+	
+	
 	
 }

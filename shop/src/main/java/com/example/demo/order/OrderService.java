@@ -47,12 +47,12 @@ public class OrderService {
 	}
 	
 	//쿼리로 바로 Dto로 받기
-	public List<OrderDto> makequery(){
+	public List<OrderDto2> makequery(){
 		String sql = "select new com.example.demo.order.OrderDto2(o.id, u.name, b.name, o.price, o.quantity)" +
 					" from BookOrder o" +
 					" join o.user u" +
 					" join o.book b";
-		List<OrderDto> oList = em.createQuery(sql, OrderDto.class).getResultList();
+		List<OrderDto2> oList = em.createQuery(sql, OrderDto2.class).getResultList();
 		
 		return oList;
 	}

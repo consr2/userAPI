@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import com.example.demo.order.BookOrder;
 import com.example.demo.order.OrderDto;
 import com.example.demo.order.OrderDto2;
 import com.example.demo.order.OrderService;
+import com.example.demo.user.dto.UserDto2;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -115,7 +117,7 @@ public class UserControllerAPI {
 	
 	//바로 Dto로 받기
 	@GetMapping("/api/v4/order")
-	public List<OrderDto> getOrder4() {
+	public List<OrderDto2> getOrder4() {
 		return OrderService.makequery();
 	}
 	
@@ -172,11 +174,31 @@ public class UserControllerAPI {
 		List<UserOrderDto> collect = user.stream()
 				.map(m -> new UserOrderDto(m))
 			.	collect(Collectors.toList());
-		System.out.println(collect.toString());
 		return new Result<List<UserOrderDto>>(collect.size(), collect);
 	}
 	
 	
-	
+	//2번 쿼리 사용으로 최적화 시킴
+	//방식
+	//1.모든 유저 가져옴 2.모든 주문가져옴 3. 주문과 유저를 매칭시킴
+	@GetMapping("/api/v4/getuser")
+	public List<UserDto2> getUser6(){
+		List<SiteUser> userList = userService.findAllByQuery2();
+
+		List<OrderDto2> orderList = OrderService.makequery();
+		
+		Map<String, List<OrderDto2>> map = orderList.stream()
+				.collect(Collectors.groupingBy(OrderDto2::getUserName));
+		
+		List<UserDto2> udList = userList.stream()
+				.map(o -> new UserDto2(o))
+				.toList();
+		
+		udList.forEach(o -> o.setOrderList(map.get(o.getName())));
+		
+		System.out.println(map);
+		
+		return udList;
+	}
 	
 }
